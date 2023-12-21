@@ -7,7 +7,7 @@ const bodyParser 	= require('body-parser');
 
 const app = express();
 
-const hostname 	= '192.168.0.101';
+const hostname 	= '0.0.0.0';
 
 
 app.use('/static', express.static(path.join(__dirname,'public')));
