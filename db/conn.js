@@ -1,9 +1,5 @@
 const { Client } = require('pg');
 
-// Configuración de la conexión a PostgreSQL
-//instance -> littlegamedb
-//dbname -> littlepostgres
-
 const client = new Client({
   user: process.env.PG_USER,
   host: process.env.PG_HOST,
@@ -13,16 +9,17 @@ const client = new Client({
 });
 
 // Conectar a PostgreSQL
-client.connect();
-
-// Ejemplo de consulta
-client.query('SELECT * FROM tu_tabla', (err, res) => {
-  if (err) {
-    console.error(err);
-  } else {
-    console.log(res.rows);
+async function connect() {
+  try {
+    await client.connect();
+    console.log('Connected to PostgreSQL');
+    return client;
+  } catch (error) {
+    console.error('Error connecting to PostgreSQL:', error);
+    throw error;
   }
+}
 
-  // Cerrar la conexión
-  client.end();
-});
+module.exports = {
+  connect,
+};
