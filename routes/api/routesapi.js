@@ -3,7 +3,7 @@ const router = express.Router();
 const axios = require('axios');
 
 router.get('/create-set', async (req, res) => {
-    let url = 'https://mybackend-234b.onrender.com/create-set';
+    let url = 'https://mybackend-234b.onrender.com/api/create-set';
     axios.get(url)
         .then(response => {
             //res.json(response.data);
