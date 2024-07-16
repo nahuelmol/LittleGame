@@ -4,7 +4,7 @@ const axios = require('axios');
 
 router.get('/create-set', async (req, res) => {
     let url = 'https://mybackend-234b.onrender.com/api/create-data-set';
-    axios.get(url)
+    axios.post(url)
         .then(response => {
             //res.json(response.data);
             let strjson = JSON.stringigy(response.data);
