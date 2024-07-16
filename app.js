@@ -3,6 +3,7 @@ const path 		= require('path');
 const morgan 	= require('morgan');
 
 const indexRoutes 	= require('./routes/routes');
+const apiroutes     = require('./routes/api/routesapi');
 const bodyParser 	= require('body-parser');
 
 const app = express();
@@ -24,7 +25,8 @@ app.set('host', hostname)
 app.set('views',path.join(__dirname,'templates'));
 app.set('view engine', 'ejs');
 
-app.use('/',     indexRoutes);
+app.use('/',        indexRoutes);
+app.use('/api',     apiroutes);
 
 
 module.exports = app;

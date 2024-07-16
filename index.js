@@ -1,6 +1,5 @@
-const { connect } = require('./db/conn')
-
-connect()
+//const { connect } = require('./db/conn')
+//connect()
 
 let app = require('./app');
 
