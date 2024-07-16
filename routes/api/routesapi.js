@@ -7,7 +7,7 @@ router.get('/create-set', async (req, res) => {
     axios.post(url)
         .then(response => {
             //res.json(response.data);
-            let strjson = JSON.stringigy(response.data);
+            let strjson = JSON.stringify(response.data);
             let message = { msg: strjson }
             //res.status(200).json(response.data);
             res.status(200).json(message);
