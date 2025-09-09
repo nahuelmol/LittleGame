@@ -13,6 +13,7 @@ const morganFormat = process.env.NODE_ENV === 'production' ? 'combined' : 'dev';
 
 
 app.use('/static', express.static(path.join(__dirname,'public')));
+app.use(express.static(path.join(__dirname, 'templates')));
 app.use(morgan(morganFormat));
 
 //app.use(bodyParser.json());

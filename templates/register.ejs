@@ -5,22 +5,60 @@
             <div class="col-md-5">
                 <div class="card">
                     <div class="card-body">
-                    	<form action="/add" method="POST">
+                    	<form action="/add" method="POST" id="uploadForm">
                             <div class="form-group">
-                                <input type="text" name="name" placeholder="tu nombre" class="form-control">
+                                <input type="text" name="username" placeholder="username" class="form-control">
                             </div>
 
                             <div class="form-group">
                                 <input type="text" name="email" placeholder="tu mail" class="form-control">
                             </div>
+                            <div class="form-group">
+                                <input type="text" name="filtertype" placeholder="filtertype" class="form-control">
+                            </div>
+                            <div class="form-group">
+                                <input type="text" name="filtername" placeholder="filtername" class="form-control">
+                            </div>
+                            <div class="form-group">
+                                <input type="text" name="window" placeholder="window" class="form-control">
+                            </div>
+                            <div class="form-group">
+                                <input type="text" name="gain" placeholder="gain" class="form-control">
+                            </div>
+                            <div class="form-group">
+                                <input type="text" name="numtaps" placeholder="numtaps" class="form-control">
+                            </div>
+                            <div class="form-group">
+                                <input type="checkbox" name="ffilter" placeholder="tu mail" class="form-control">
+                            </div>
+                            <div class="form-group">
+                                <input type="checkbox" name="anex" placeholder="tu mail" class="form-control">
+                            </div>
+                            <div class="form-group">
+                                <input type="checkbox" name="nmo" placeholder="tu mail" class="form-control">
+                            </div>
                             
                             <div class="form-group">
+                                <input name="cutoff" cols="80" placeholder="cutoff" class="form-control"></input>
+                            </div>
+                            <div class="form-group">
+                                <input name="order" cols="80" placeholder="order" class="form-control"></input>
+                            </div>
+                            <div class="form-group">
                                 <textarea name="description" cols="80" placeholder="Insert a description" class="form-control"></textarea>
+                            </div>
+                            <div class="form-group">
+                                <input type="file" name="fileElem" class="form-control">
+                                <label id="drop-area" for="fileElem">
+                                     <p>Drag and drop</p>
+                                     <p id="file-name"></p>
+                                </label>
                             </div>
                             <button type="submit" class="btn btn-primary btn-block">
                                 Add
                             </button>
                         </form>
+                        <script src="/js/register.js"></script>
                     </div>
                 </div>
             </div>
