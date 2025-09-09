@@ -1,15 +1,13 @@
 
+var message = document.getElementById('form-state')
+
 document.addEventListener('DOMContentLoaded', () => {
     const form = document.getElementById('uploadForm');
 
     form.addEventListener('submit', async (e) => {
-        e.preventDefault(); // Detiene el envío del formulario tradicional
-
-        // URL de tu API de backend. Cambia esta URL a la que corresponda.
-        // const apiUrl = 'https://tu-api.com/upload-endpoint'; 
+        e.preventDefault();
 
         const apiUrl = "http://127.0.0.1:8000/api/create-data-set"
-
         const nmo = document.querySelector('input[name="nmo"]');
         const ffi = document.querySelector('input[name="ffilter"]');
         const anx = document.querySelector('input[name="anex"]');
@@ -18,34 +16,40 @@ document.addEventListener('DOMContentLoaded', () => {
             console.log("nmo")
         }
 
-        // Crea un objeto FormData a partir del formulario HTML.
-        // Esto automáticamente incluye todos los campos,
-        // ¡incluso el archivo binario!
-        const formData = new FormData(form);
+        const formData = new FormData(form)
 
+        const formEntries = Array.from(formData.entries());
+        const metaEntries = formEntries.filter(([key, value]) => !(value instanceof File));
+        const metaObject = Object.fromEntries(metaEntries);
+        
+        metaObject.nmo      = formData.has('nmo')
+        metaObject.anex     = formData.has('anex')
+        metaObject.ffilter  = formData.has('ffilter')
+
+        metaObject.order    = Number(formData.get('order'))
+        metaObject.cutoff   = Number(formData.get('cutoff'))
+        metaObject.numtaps  = Number(formData.get('numtaps'))
+
+        const metaJson = JSON.stringify(metaObject);
+
+        formData.set('metadata', metaJson)
+        console.log("Objeto de metadata a enviar:", metaObject);
+        console.log("Cadena JSON de metadata:", metaJson);
         try {
-            // Usa 'fetch' para enviar los datos. 'fetch' se encarga
-            // de configurar el encabezado 'Content-Type' correctamente.
             const response = await fetch(apiUrl, {
                 method: 'POST',
                 body: formData,
             });
-
             if (response.ok) {
-                // Si la respuesta es exitosa (código 200-299)
-                const result = await response.json();
-                console.log('succesful upload', result);
-                alert('form sent sucesfuly.');
+                const res = await response.json();
+                message.textContent = "upload done!"
             } else {
-                // Si hay un error en la respuesta del servidor
-                const error = await response.json();
-                console.error('Err uploading:', error);
-                alert(`Err: ${error.message}`);
+                const err = await response.json();
+                message.textContent = "err!"
             }
-        } catch (error) {
-            // Si hay un problema de conexión a la red
-            console.error('Connection err: ', error);
-            alert('Connection cannot be done');
+        } catch (err) {
+            const p = document.createElement('p')
+            message.textContent = "Connection err!"
         }
     });
 });
