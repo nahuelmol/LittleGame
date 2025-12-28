@@ -8,12 +8,14 @@ router.get('/create-set', async (req, res) => {
         .then(response => {
             //res.json(response.data);
             let strjson = JSON.stringify(response.data);
+            console.log(response.data)
             let message = { msg: strjson }
             //res.status(200).json(response.data);
             res.status(200).json(message);
         })
         .catch(error => {
             let err = { error : error.message };
+            console.log(error.message)
             res.status(500).json(err);
       }); 
 })

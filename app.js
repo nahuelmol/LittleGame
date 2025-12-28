@@ -30,5 +30,4 @@ app.set('view engine', 'ejs');
 app.use('/',        indexRoutes);
 app.use('/api',     apiroutes);
 
-
 module.exports = app;

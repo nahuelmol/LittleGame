@@ -7,38 +7,30 @@ document.addEventListener('DOMContentLoaded', () => {
     form.addEventListener('submit', async (e) => {
         e.preventDefault();
 
-        const apiUrl = "http://127.0.0.1:8000/api/create-data-set"
+        //const apiUrl = "http://127.0.0.1:8000/api/create-data-set"
+        const apiUrl = "https://mybackend-234b.onrender.com"
         const nmo = document.querySelector('input[name="nmo"]');
         const ffi = document.querySelector('input[name="ffilter"]');
         const anx = document.querySelector('input[name="anex"]');
 
-        if (nmo.checked){
-            console.log("nmo")
-        }
-
-        const formData = new FormData(form)
-
-        const formEntries = Array.from(formData.entries());
-        const metaEntries = formEntries.filter(([key, value]) => !(value instanceof File));
-        const metaObject = Object.fromEntries(metaEntries);
+        const formData      = new FormData(form)
+        const formEntries   = Array.from(formData.entries());
+        const metaEntries   = formEntries.filter(([key, value]) => !(value instanceof File));
+        const metaObject    = Object.fromEntries(metaEntries);
         
         metaObject.nmo      = formData.has('nmo')
         metaObject.anex     = formData.has('anex')
         metaObject.ffilter  = formData.has('ffilter')
-
         metaObject.order    = Number(formData.get('order'))
         metaObject.cutoff   = Number(formData.get('cutoff'))
         metaObject.numtaps  = Number(formData.get('numtaps'))
 
         const metaJson = JSON.stringify(metaObject);
-
-        formData.set('metadata', metaJson)
-        console.log("Objeto de metadata a enviar:", metaObject);
-        console.log("Cadena JSON de metadata:", metaJson);
+        formData.set("metadata", metaJson);
         try {
             const response = await fetch(apiUrl, {
                 method: 'POST',
-                body: formData,
+                body: formData
             });
             if (response.ok) {
                 const res = await response.json();
