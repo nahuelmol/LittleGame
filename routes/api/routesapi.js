@@ -3,7 +3,7 @@ const router = express.Router();
 const axios = require('axios');
 
 router.get('/create-set', async (req, res) => {
-    let url = 'https://mybackend-234b.onrender.com/api/create-data-set';
+    let url = process.env.BACKEND_HOST + '/create-data-set';
     axios.post(url)
         .then(response => {
             //res.json(response.data);
@@ -21,7 +21,7 @@ router.get('/create-set', async (req, res) => {
 })
 
 router.get('/delete-set', async (req, res) => {
-    let url = 'https://backer.onrender.com/create-set';
+    let url = process.env.BACKEND_HOST + '/delete-set';
     axios.get(url)
         .then(response => {
             let strjson = JSON.stringigy(response.data);
