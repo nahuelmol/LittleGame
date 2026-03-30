@@ -1,2 +1,2 @@
-### task
-This frontend should send the multipart/form-data to the backend that will process the file.
+### THen
+The idea is to make this my personal website. A place for over-egineering, using everything I am learning.
