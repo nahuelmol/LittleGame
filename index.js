@@ -1,5 +1,3 @@
-//const { connect } = require('./db/conn')
-//connect()
 
 let app = require('./app');
 

@@ -34,4 +34,19 @@ router.get('/delete-set', async (req, res) => {
       }); 
 })
 
+router.get('/create-contact', async (req, res) => {
+    let url = process.env.DATABASE_HOST + '/';
+    axios.post(url)
+        .then(response => {
+            let strjson = JSON.stringigy(response.data);
+            let message = { msg:strjson };
+            res.status(200).json(message);
+        })
+        .catch(error => {
+            let err = { error:error.message };
+            res.status(500).json(err);
+      }); 
+
+})
+
 module.exports = router;

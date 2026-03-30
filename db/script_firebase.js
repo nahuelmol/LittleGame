@@ -3,7 +3,7 @@ const { initializeApp } = require('./node_modules/firebase/app');
 const { getAnalytics } = require('firebase/analytics');
 const { getFirestore, collection, addDoc } = require('firebase/firestore');
 
-const firebaseConfig = {
+const fbConfig = {
   apiKey: process.env.API_KEY,
   authDomain: process.env.AUTH_DOMAIN,
   projectId: process.env.PROJECT_ID,
@@ -14,7 +14,7 @@ const firebaseConfig = {
 };
 
 // Initialize Firebase
-const app = initializeApp(firebaseConfig);
+const app = initializeApp(fbConfig);
 const analytics = getAnalytics(app);
 
 const testFirestore = async () => {
