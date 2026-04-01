@@ -9,8 +9,8 @@ router.get('/register', async (req, res) => {
     res.render('register')
 })
 
-router.get('/blogs', async (req, res) => {
-    res.render('blogs')
+router.get('/contacts', async (req, res) => {
+    res.render('contacts')
 })
 
 module.exports = router;
