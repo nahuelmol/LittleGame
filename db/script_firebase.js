@@ -1,23 +1,22 @@
-// Import the functions you need from the SDKs you need
+
 const { initializeApp } = require('./node_modules/firebase/app');
 const { getAnalytics } = require('firebase/analytics');
 const { getFirestore, collection, addDoc } = require('firebase/firestore');
 
 const fbConfig = {
-  apiKey: process.env.API_KEY,
-  authDomain: process.env.AUTH_DOMAIN,
-  projectId: process.env.PROJECT_ID,
-  storageBucket: process.env.STORAGE_BUCKET,
-  messagingSenderId: process.env.MESSAGING_SENDER_ID,
-  appId: process.env.APP_ID,
-  measurementId: process.env.MESSUREMENT_ID
+  apiKey: process.env.FB_APIKEY,
+  authDomain: process.env.FB_AUTHDOMAIN,
+  projectId: process.env.FB_PROJECTID,
+  storageBucket: process.env.FB_STORAGEBUCKET,
+  messagingSenderId: process.env.FB_MESSAGINGSENDERID,
+  appId: process.env.FB_APPID,
+  measurementId: process.env.FB_MESSUREMENTID
 };
 
-// Initialize Firebase
 const app = initializeApp(fbConfig);
 const analytics = getAnalytics(app);
 
-const testFirestore = async () => {
+const firestore = async () => {
   try {
     const docRef = await addDoc(collection(db, 'testCollection'), {
       testField: 'Hello, Firebase!'
@@ -28,5 +27,5 @@ const testFirestore = async () => {
   }
 };
 
-// Run the test function
-testFirestore();
+module.export = { firestore }
+

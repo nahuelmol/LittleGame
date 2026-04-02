@@ -3,7 +3,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     form.addEventListener('submit', async (e) => {
         e.preventDefault();
-        const apiUrl = 'firebase';  //this must have the Firebase endpoint 
+        const apiUrl = 'create-contact-infb';  //this must have the Firebase endpoint 
 
         const formData      = new FormData(form)
         const formEntries   = Array.from(formData.entries());
