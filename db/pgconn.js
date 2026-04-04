@@ -8,7 +8,6 @@ const client = new Client({
   port: process.env.PG_PORT,
 });
 
-// Conectar a PostgreSQL
 async function connect() {
   try {
     await client.connect();
