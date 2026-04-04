@@ -27,5 +27,6 @@ const firestore = async () => {
   }
 };
 
-module.export = { firestore }
+module.export = firestore
+
 

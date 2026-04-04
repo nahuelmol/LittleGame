@@ -1,26 +1,26 @@
 <%- include("partials/header.ejs") %>
 
- <div class="container">
-    <div class="row">
-        <div class="col-md-5">
-            <div class="card">
-                <div class="card-body">
+<div class="container">
+   <div class="row">
+       <div class="col-md-5">
+           <div class="card">
+               <div class="card-body">
                     <form action="/add" method="POST" id="uploadForm">
-                        <div class="form-group">
-                            <input type="text" name="username" placeholder="Username" class="form-control">
-                        </div>
+                       <div class="form-group">
+                           <input type="text" name="username" placeholder="Username" class="form-control">
+                       </div>
 
-                        <div class="form-group">
-                            <input type="text" name="email" placeholder="Your mail" class="form-control">
-                        </div>
+                       <div class="form-group">
+                           <input type="text" name="email" placeholder="Your mail" class="form-control">
+                       </div>
                         
-                        <div class="form-group">
-                            <textarea name="description" cols="80" placeholder="Insert a description" class="form-control"></textarea>
-                        </div>
+                       <div class="form-group">
+                           <textarea name="description" cols="80" placeholder="Insert a description" class="form-control"></textarea>
+                       </div>
 
-                        <button type="submit" class="btn btn-primary btn-block">
+                       <button type="submit" class="btn btn-primary btn-block">
                             Add
-                        </button>
+                       </button>
                     </form>
                     <div>
                         <p id="form-state"></p>
@@ -28,6 +28,6 @@
                     <script src="/js/contacts.js"></script>
                 </div>
             </div>
-            </div>
+        </div>
     </div>
  </div>
