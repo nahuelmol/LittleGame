@@ -1,7 +1,7 @@
 const express   = require('express');
 const router    = express.Router();
 const axios     = require('axios');
-const firestore = require("./../../db/script_firebase.js");
+require("./../../db/script_firebase.js");
 
 router.get('/create-set', async (req, res) => {
     let url = process.env.BACKEND_HOST + '/create-data-set';
@@ -36,7 +36,7 @@ router.get('/delete-set', async (req, res) => {
 })
 
 router.get('/create-cotact-infb', async (req, res) => {
-    firestore();
+    //firestore();
     //I dont know if I have to execute the function above before sending posts
     /*
     let url = process.env.BACKEND_HOST + '/delete-set';

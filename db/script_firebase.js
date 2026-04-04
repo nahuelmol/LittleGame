@@ -1,5 +1,5 @@
 
-const { initializeApp } = require('./node_modules/firebase/app');
+const { initializeApp } = require('firebase/app');
 const { getAnalytics } = require('firebase/analytics');
 const { getFirestore, collection, addDoc } = require('firebase/firestore');
 
@@ -27,6 +27,5 @@ const firestore = async () => {
   }
 };
 
-module.export = firestore
-
+//module.export = firestore
 

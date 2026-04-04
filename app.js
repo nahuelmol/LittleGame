@@ -3,6 +3,8 @@ const path 		= require('path');
 const morgan 	= require('morgan');
 const cors      = require('cors');
 
+require('dotenv').config()
+
 const indexRoutes 	= require('./routes/routes');
 const apiroutes     = require('./routes/api/routesapi');
 const bodyParser 	= require('body-parser');
@@ -24,7 +26,7 @@ app.use(express.json());
 app.set('port', process.env.PORT || 3000);
 app.set('host', hostname)
 
-app.set('views',path.join(__dirname,'templates'));
+app.set('views', path.join(__dirname,'templates'));
 app.set('view engine', 'ejs');
 
 app.use('/',        indexRoutes);
