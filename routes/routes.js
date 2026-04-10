@@ -9,7 +9,7 @@ router.get('/register', async (req, res) => {
     res.render('register')
 })
 
-router.get('/contacts', async (req, res) => {
+router.get('/contact', async (req, res) => {
     res.render('contacts')
 })
 
