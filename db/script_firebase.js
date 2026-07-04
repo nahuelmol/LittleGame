@@ -1,7 +1,7 @@
 
 const { initializeApp } = require('firebase/app');
 const { getAnalytics } = require('firebase/analytics');
-const { getFirestore, collection, addDoc } = require('firebase/firestore');
+const { getFirestore, collection, addDoc, doc, deleteDoc } = require('firebase/firestore');
 
 const fbConfig = {
   apiKey: process.env.FB_APIKEY,
@@ -15,17 +15,28 @@ const fbConfig = {
 
 const app = initializeApp(fbConfig);
 const analytics = getAnalytics(app);
+const db = getFirestore(app);
 
-const firestore = async () => {
+const add_contact = async (mydoc) => {
   try {
-    const docRef = await addDoc(collection(db, 'testCollection'), {
-      testField: 'Hello, Firebase!'
-    });
-    console.log('Document written with ID:', docRef.id);
+    await addDoc(collection(db, 'contactCollection'), mydoc);
+    console.log('Contact Document written');
   } catch (e) {
     console.error('Error adding document:', e);
   }
 };
 
-//module.export = firestore
+const del_contact = async (id) => {
+  try {
+    await deleteDoc(doc(db, 'contactCollection'), id);
+    console.log('Contact Document deleted');
+  } catch (e) {
+    console.error('Error adding document:', e);
+  }
+};
+
+module.export = {
+    add_contact,
+    del_contact,
+}
 

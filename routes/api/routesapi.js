@@ -40,26 +40,21 @@ router.get('/delete-set', async (req, res) => {
       }); 
 })
 
-router.get('/create-contact-infb', async (req, res) => {
-    console.log("hellow")
+router.post('/create-contact', async (req, res) => {
     res.send("Hello from A!")
-    /*
-    require("./../../db/script_firebase.js");
-    firestore();
-    I dont know if I have to execute the function above before sending posts
+    const { add_contact } = require("./../../db/script_firebase.js");
+    user_example = {
+        name:"Nahuel Molina",
+        age:27
+    }
+    add_contact(user_example);
+})
 
-    let url = process.env.BACKEND_HOST + '/delete-set';
-    axios.get(url)
-        .then(response => {
-            let strjson = JSON.stringigy(response.data);
-            let message = { msg: strjson }
-            res.status(200).json(message);
-        })
-        .catch(error => {
-            let err = { error : error.message };
-            res.status(500).json(err);
-      }); 
-    */
+router.get('/delete-contact', async (req, res) => {
+    res.send('Hello deleting!')
+    //I should study how to extract an ID and send it to del_contact(id)
+    const { del_contact } = require("./../../db/script_firebase.js");
+    del_contact(id);
 })
 
 module.exports = router;
