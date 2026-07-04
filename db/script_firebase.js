@@ -1,6 +1,5 @@
 
 const { initializeApp } = require('firebase/app');
-const { getAnalytics } = require('firebase/analytics');
 const { getFirestore, collection, addDoc, doc, deleteDoc } = require('firebase/firestore');
 
 const fbConfig = {
@@ -14,7 +13,6 @@ const fbConfig = {
 };
 
 const app = initializeApp(fbConfig);
-const analytics = getAnalytics(app);
 const db = getFirestore(app);
 
 const add_contact = async (mydoc) => {

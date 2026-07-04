@@ -1,20 +1,24 @@
-const express = require('express');
+import express from 'express';
 const router = express.Router();
 
 router.get('/', async (req, res) => {
-    res.render('main')
+    res.render('main');
 })
 
 router.get('/register', async (req, res) => {
-    res.render('register')
+    res.render('register');
 })
 
 router.get('/projects', async (req, res) => {
-    res.render('projects')
+    res.render('projects');
 })
 
 router.get('/contact', async (req, res) => {
-    res.render('contacts')
+    res.render('contact');
+})
+
+router.get('/login', async (req, res) => {
+    res.render('login');
 })
 
 module.exports = router;
