@@ -1,6 +1,7 @@
 const express   = require('express');
 const router    = express.Router();
 const axios     = require('axios');
+const { add_contact, del_contact } = require("./../../db/script_firebase.js");
 
 const TL = (req, res, next) => {
   console.log('Time: ', Date.now())
@@ -42,7 +43,6 @@ router.get('/delete-set', async (req, res) => {
 
 router.post('/create-contact', async (req, res) => {
     res.send("Hello from A!")
-    const { add_contact } = require("./../../db/script_firebase.js");
     user_example = {
         name:"Nahuel Molina",
         age:27
@@ -53,7 +53,6 @@ router.post('/create-contact', async (req, res) => {
 router.get('/delete-contact', async (req, res) => {
     res.send('Hello deleting!')
     //I should study how to extract an ID and send it to del_contact(id)
-    const { del_contact } = require("./../../db/script_firebase.js");
     del_contact(id);
 })
 

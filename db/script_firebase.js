@@ -33,7 +33,7 @@ const del_contact = async (id) => {
   }
 };
 
-module.export = {
+module.exports = {
     add_contact,
     del_contact,
 }
