@@ -12,9 +12,13 @@ document.addEventListener('DOMContentLoaded', () => {
 
         const metaJson = JSON.stringify(metaObject);
         formData.set("metadata", metaJson);
+        formData.append('_csrf', window.csrfToken);
         try {
             const response = await fetch(apiUrl, {
                 method: 'POST',
+                headers:{
+                    'CSRF-Token':window.csrfToken
+                },
                 body: formData
             });
             if (response.ok) {
