@@ -23,7 +23,7 @@ router.get('/contact', csrfProtection, async (req, res) => {
     });
 });
 
-router.get('/login', async (req, res) => {
+router.get('/login', csrfProtection, async (req, res) => {
     res.render('login', {
         csrfToken:req.csrfToken()
     });

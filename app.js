@@ -3,6 +3,7 @@ const path 		= require('path');
 const morgan 	= require('morgan');
 const cors      = require('cors');
 const cookieParser = require('cookie-parser');
+const session   = require('express-session');
 
 require('dotenv').config()
 
@@ -33,6 +34,13 @@ app.set('host', hostname)
 
 app.set('views', path.join(__dirname,'templates'));
 app.set('view engine', 'ejs');
+
+
+app.use(session({
+    secret: process.env.SESSION_SECRET,
+    resave: false,
+    saveUninitialized: false
+}));
 
 app.use('/',        indexRoutes);
 app.use('/api',     apiroutes);

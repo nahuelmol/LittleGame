@@ -88,7 +88,7 @@ router.post('/login', upload.none(), async (req, res) => {
     const data = req.body;
     const user = await findUser(data.name);
     if(user){
-        const ok = await bycrypt.compare(
+        const ok = await bcrypt.compare(
             data.password,
             user.password
         )
@@ -97,7 +97,7 @@ router.post('/login', upload.none(), async (req, res) => {
         }
         req.session.user = {
             id: user.id,
-            username: user.username
+            username: user.name
         };
         res.send('Logged in')
     }
