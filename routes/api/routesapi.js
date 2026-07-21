@@ -2,12 +2,20 @@ const express   = require('express');
 const router    = express.Router();
 const axios     = require('axios');
 const bcrypt    = require('bcryptjs');
+const { faker } = require('@faker-js/faker');
 
 const { add_user, add_contact, del_contact } = require("./../../db/script_firebase.js");
 const { findUser } = require('../../db/utils.js');
 
 const multer = require('multer')
 const upload = multer()
+
+function requireAuth(req, res, next) {
+    if (!req.session.user) {
+        return res.redirect("/login");
+    }
+    next();
+}
 
 const TL = (req, res, next) => {
   console.log('Time: ', Date.now())
@@ -19,11 +27,9 @@ router.get('/create-set', async (req, res) => {
     let url = process.env.BACKEND_HOST + '/create-data-set';
     axios.post(url)
         .then(response => {
-            //res.json(response.data);
             let strjson = JSON.stringify(response.data);
             console.log(response.data)
             let message = { msg: strjson }
-            //res.status(200).json(response.data);
             res.status(200).json(message);
         })
         .catch(error => {
@@ -52,7 +58,9 @@ router.post('/create-contact', upload.none(), async (req, res) => {
     let contact = {
         name:data.username,
         email:data.email,
-        description:data.description
+        description:data.description,
+        leido:false,
+        respondido:false
     }
     add_contact(contact);
     res.json({ ok:true });
@@ -110,6 +118,32 @@ router.post("/logout", (req, res) => {
         res.clearCookie("connect.sid");
         res.redirect("/login");
     });
+});
+
+router.get("/seed/:n", requireAuth,(req, res) => {
+    const n = req.params.n;
+    const symbols = [".", "_"]
+    for (let i = 0;i < n; i++){
+        let name = faker.person.fullName();
+        let fname = name.split(" ")[0];
+
+        let numbr = faker.number.int(100);
+        let symbn = faker.number.int(2);
+
+        let email = fname + symbols[symbn] + numbr + "@gmail.com"
+        let description = faker.lorem.sentences(5);
+
+        let contact = {
+            name,
+            email,
+            description,
+            leido:false,
+            respondido:false
+        }
+        add_contact(contact);
+        console.log("done");
+    }
+    res.json({ ok:true });
 });
 
 module.exports = router;
