@@ -3,6 +3,8 @@ const router = express.Router();
 const csrf = require('csurf');
 const csrfProtection = csrf({ cookie: true });
 
+const { requireAuth }   = require('./middlewares.js');
+
 router.get('/', async (req, res) => {
     res.render('main');
 });
@@ -27,6 +29,10 @@ router.get('/login', csrfProtection, async (req, res) => {
     res.render('login', {
         csrfToken:req.csrfToken()
     });
+});
+
+router.get("/console", requireAuth, (req, res) => {
+    res.render('console');
 });
 
 module.exports = router;

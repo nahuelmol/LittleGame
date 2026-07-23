@@ -5,22 +5,13 @@ const bcrypt    = require('bcryptjs');
 const { faker } = require('@faker-js/faker');
 
 const { add_user, add_contact, del_contact } = require("./../../db/script_firebase.js");
-const { findUser } = require('../../db/utils.js');
+const { findUser }          = require('../../db/utils.js');
+const { requireAuth, TL }   = require('../middlewares.js');
+const { truncate }          = require('../utils.js');
 
 const multer = require('multer')
 const upload = multer()
 
-function requireAuth(req, res, next) {
-    if (!req.session.user) {
-        return res.redirect("/login");
-    }
-    next();
-}
-
-const TL = (req, res, next) => {
-  console.log('Time: ', Date.now())
-  next()
-}
 router.use(TL)
 
 router.get('/create-set', async (req, res) => {
@@ -132,18 +123,46 @@ router.get("/seed/:n", requireAuth,(req, res) => {
 
         let email = fname + symbols[symbn] + numbr + "@gmail.com"
         let description = faker.lorem.sentences(5);
+        let now = truncate(Date.now(), 2)
 
         let contact = {
             name,
             email,
             description,
             leido:false,
-            respondido:false
+            respondido:false,
+            seed:true,
+            time:now
         }
         add_contact(contact);
-        console.log("done");
     }
     res.json({ ok:true });
 });
+
+router.get("/seed/del/:opc", requireAuth, (req, res) => {
+    const opc = req.params.opc;
+    switch(opc) {
+        case "all":{
+            console.log("delete all");
+            del_contact("all");
+            break;
+        }
+        default:{
+            if (/^\d+$/.test(opc)) {
+                const id = Number(opc);
+                console.log("delete id:", id);
+                del_contact(id);
+            } else {
+                return res.status(400).json({
+                    ok: false,
+                    error: "Invalid option"
+                });
+            }
+            break;
+        }
+    }
+    res.json({ ok:true });
+});
+
 
 module.exports = router;
