@@ -46,12 +46,15 @@ router.get('/delete-set', async (req, res) => {
 
 router.post('/create-contact', upload.none(), async (req, res) => {
     const data = req.body
+    let now = truncate(Date.now(), 2)
     let contact = {
         name:data.username,
         email:data.email,
         description:data.description,
         leido:false,
-        respondido:false
+        respondido:false,
+        seed:false,
+        time:now
     }
     add_contact(contact);
     res.json({ ok:true });
