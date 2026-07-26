@@ -4,8 +4,10 @@ const add_contact = async (mydoc) => {
         const db = require('./fbconn.js')
         await db.collection('contactCollection').add(mydoc);
         console.log('Contact Document written');
+        return true;
     } catch (e) {
         console.error('Error adding document:', e);
+        return false;
     }
 };
 
@@ -22,8 +24,19 @@ const add_user = async (user) => {
 const del_contact = async (id) => {
     try {
         const db = require('./fbconn.js')
-        await db.collection('contactCollection').doc(id).delete();
-        console.log('Contact Document deleted');
+        if(id == "all") {
+            const snapshot = await db.collection('contactCollection').get();
+            const batch = db.batch();
+            snapshot.forEach(doc => {
+                batch.delete(doc.ref);
+            });
+
+            await batch.commit();
+        } else {
+            await db.collection('contactCollection').doc(id).delete();
+            console.log('Contact Document deleted');
+        }
+
     } catch (e) {
         console.error('Error adding document:', e);
     }

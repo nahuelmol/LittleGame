@@ -75,7 +75,7 @@ router.get('/delete-contact/:id', async (req, res) => {
 
 router.post('/register', upload.none(), async (req, res) => {
     const data = req.body;
-    let user = await findUser(data.name);
+    let user = await findUser(data.name, "username");
     if(user){
         console.log('user already exists');
         return
@@ -107,7 +107,6 @@ router.post('/login', upload.none(), async (req, res) => {
             id: user.id,
             username: user.name
         };
-        //res.send('Logged in')
         return res.redirect('/console')
     }
 })
@@ -120,6 +119,15 @@ router.post("/logout", (req, res) => {
         res.redirect("/login");
     });
 });
+
+router.post("/seed/find", requireAuth,(req, res) => {
+    for (const k of Object.keys(req.body)){
+        if(req.body[k]){
+            findContact(req.body[k], k);
+        }
+    };
+    res.json({ ok:true });
+})
 
 router.get("/seed/:n", requireAuth,(req, res) => {
     const n = req.params.n;

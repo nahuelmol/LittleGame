@@ -23,14 +23,11 @@ document.addEventListener('DOMContentLoaded', () => {
             });
             if (response.ok) {
                 const res = await response.json();
-                message.textContent = "upload done!"
             } else {
                 const err = await response.json();
-                message.textContent = "err!"
             }
         } catch (err) {
             const p = document.createElement('p')
-            message.textContent = "Connection err!"
         }
     });
 })
