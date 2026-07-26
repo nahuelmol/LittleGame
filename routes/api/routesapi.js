@@ -56,8 +56,14 @@ router.post('/create-contact', upload.none(), async (req, res) => {
         seed:false,
         time:now
     }
-    add_contact(contact);
-    res.json({ ok:true });
+    resp = add_contact(contact);
+    if (resp == true) {
+        res.json({ ok:true });
+        return res.redirect("/console");
+    } else {
+        res.json({ ok:false });
+    }
+
 })
 
 router.get('/delete-contact/:id', async (req, res) => {
@@ -95,13 +101,14 @@ router.post('/login', upload.none(), async (req, res) => {
             user.password
         )
         if(!ok){
-            return res.status(401).send("Invalid credentials");
+            res.status(401).send("Invalid credentials");
         }
         req.session.user = {
             id: user.id,
             username: user.name
         };
-        res.send('Logged in')
+        //res.send('Logged in')
+        return res.redirect('/console')
     }
 })
 
@@ -166,6 +173,5 @@ router.get("/seed/del/:opc", requireAuth, (req, res) => {
     }
     res.json({ ok:true });
 });
-
 
 module.exports = router;
