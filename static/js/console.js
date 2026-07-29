@@ -12,7 +12,7 @@ document.getElementById("find_contacts").addEventListener("click", async () => {
             fname:fname,
             lname:lname
     };
-    await fetch("api/seed/find", {
+    await fetch("api/seed/find/contact", {
         method: "POST",
         headers: {
             "Content-Type": "application/json"

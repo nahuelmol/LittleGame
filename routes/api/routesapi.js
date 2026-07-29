@@ -4,8 +4,8 @@ const axios     = require('axios');
 const bcrypt    = require('bcryptjs');
 const { faker } = require('@faker-js/faker');
 
-const { add_user, add_contact, del_contact } = require("./../../db/script_firebase.js");
-const { findUser }          = require('../../db/utils.js');
+const { add_user, add_contact, del_contact }= require("./../../db/script_firebase.js");
+const { findUser, findContact }            = require('../../db/utils.js');
 const { requireAuth, TL }   = require('../middlewares.js');
 const { truncate }          = require('../utils.js');
 
@@ -63,7 +63,6 @@ router.post('/create-contact', upload.none(), async (req, res) => {
     } else {
         res.json({ ok:false });
     }
-
 })
 
 router.get('/delete-contact/:id', async (req, res) => {
@@ -75,14 +74,13 @@ router.get('/delete-contact/:id', async (req, res) => {
 
 router.post('/register', upload.none(), async (req, res) => {
     const data = req.body;
-    let user = await findUser(data.name, "username");
+    let user = await findUser(data.name, "name");
     if(user){
         console.log('user already exists');
         return
     }
     const salt = await bcrypt.genSalt(10);
     const hashed_pass = await bcrypt.hash(data.password, salt);
-    console.log('hasshed_pass', hashed_pass)
     let new_user = {
         name:data.name,
         email:data.email,
@@ -94,7 +92,7 @@ router.post('/register', upload.none(), async (req, res) => {
 
 router.post('/login', upload.none(), async (req, res) => {
     const data = req.body;
-    const user = await findUser(data.name);
+    const user = await findUser(data.name, "name");
     if(user){
         const ok = await bcrypt.compare(
             data.password,
@@ -120,12 +118,9 @@ router.post("/logout", (req, res) => {
     });
 });
 
-router.post("/seed/find", requireAuth,(req, res) => {
-    for (const k of Object.keys(req.body)){
-        if(req.body[k]){
-            findContact(req.body[k], k);
-        }
-    };
+router.post("/seed/find/contact", requireAuth,(req, res) => {
+    var complete = req.body['fname'] +" "+ req.body['lname'];
+    findContact(complete, 'name');
     res.json({ ok:true });
 })
 
