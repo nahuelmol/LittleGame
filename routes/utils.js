@@ -4,7 +4,7 @@ function truncate(num, decimals = 2) {
     return Math.trunc(num * factor) / factor;
 }
 
-module.exports = {
+export {
     truncate,
-}
+};
 

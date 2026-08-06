@@ -6,12 +6,12 @@ function requireAuth(req, res, next) {
     next();
 }
 
-const TL = (req, res, next) => {
+const TL = (_req, _res, next) => {
   console.log('Time: ', Date.now())
   next()
 }
 
-module.exports = {
+export {
     requireAuth,
-    TL
+    TL,
 }

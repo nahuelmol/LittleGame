@@ -1,20 +1,21 @@
-const express   = require('express');
+import express  from 'express';
+import axios    from 'axios';
+import bcrypt   from 'bcryptjs';
+import { faker }    from '@faker-js/faker';
+import multer   from 'multer';
+
 const router    = express.Router();
-const axios     = require('axios');
-const bcrypt    = require('bcryptjs');
-const { faker } = require('@faker-js/faker');
 
-const { add_user, add_contact, del_contact }= require("./../../db/script_firebase.js");
-const { findUser, findContact }            = require('../../db/utils.js');
-const { requireAuth, TL }   = require('../middlewares.js');
-const { truncate }          = require('../utils.js');
+import { add_user, add_contact, del_contact }   from './../../db/script_firebase.js';
+import { findUser, findContact }                from '../../db/utils.js';
+import { requireAuth, TL }   from '../middlewares.js';
+import { truncate }          from '../utils.js';
 
-const multer = require('multer')
 const upload = multer()
 
 router.use(TL)
 
-router.get('/create-set', async (req, res) => {
+router.get('/create-set', async (_req, res) => {
     let url = process.env.BACKEND_HOST + '/create-data-set';
     axios.post(url)
         .then(response => {
@@ -30,7 +31,7 @@ router.get('/create-set', async (req, res) => {
       }); 
 })
 
-router.get('/delete-set', async (req, res) => {
+router.get('/delete-set', async (_req, res) => {
     let url = process.env.BACKEND_HOST + '/delete-set';
     axios.get(url)
         .then(response => {
@@ -56,7 +57,7 @@ router.post('/create-contact', upload.none(), async (req, res) => {
         seed:false,
         time:now
     }
-    resp = add_contact(contact);
+    let resp = add_contact(contact);
     if (resp == true) {
         res.json({ ok:true });
         return res.redirect("/console");
@@ -65,7 +66,7 @@ router.post('/create-contact', upload.none(), async (req, res) => {
     }
 })
 
-router.get('/delete-contact/:id', async (req, res) => {
+router.get('/delete-contact/:id', async (req, _res) => {
     const { query } = req.query
     const contactID = req.params.id;
     console.log(query);
@@ -177,4 +178,4 @@ router.get("/seed/del/:opc", requireAuth, (req, res) => {
     res.json({ ok:true });
 });
 
-module.exports = router;
+export default router;

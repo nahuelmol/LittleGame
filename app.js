@@ -1,15 +1,20 @@
-const express 	= require('express');
-const path 		= require('path');
-const morgan 	= require('morgan');
-const cors      = require('cors');
-const cookieParser = require('cookie-parser');
-const session   = require('express-session');
 
-require('dotenv').config()
+import express from 'express';
+import path from 'path';
+import morgan from 'morgan';
+import cors from 'cors';
+import cookieParser from 'cookie-parser';
+import session from 'express-session';
 
-const indexRoutes 	= require('./routes/routes');
-const apiroutes     = require('./routes/api/routesapi');
-const bodyParser 	= require('body-parser');
+import { fileURLToPath } from "url";
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+
+import "dotenv/config";
+
+import indexRoutes 	from './routes/routes.js';
+import apiroutes    from './routes/api/routesapi.js';
 
 const app = express();
 
@@ -44,4 +49,4 @@ app.use(session({
 app.use('/',        indexRoutes);
 app.use('/api',     apiroutes);
 
-module.exports = app;
+export default app;

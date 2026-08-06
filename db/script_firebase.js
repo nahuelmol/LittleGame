@@ -1,7 +1,8 @@
 
+import db from './fbconn.js';
+
 const add_contact = async (mydoc) => {
     try {
-        const db = require('./fbconn.js')
         await db.collection('contactCollection').add(mydoc);
         console.log('Contact Document written');
         return true;
@@ -13,7 +14,6 @@ const add_contact = async (mydoc) => {
 
 const add_user = async (user) => {
     try {
-        const db = require('./fbconn.js')
         await db.collection('users').add(user);
         console.log('User saved correctly;');
     } catch (e) {
@@ -23,7 +23,6 @@ const add_user = async (user) => {
 
 const del_contact = async (id) => {
     try {
-        const db = require('./fbconn.js')
         if(id == "all") {
             const snapshot = await db.collection('contactCollection').get();
             const batch = db.batch();
@@ -42,7 +41,7 @@ const del_contact = async (id) => {
     }
 };
 
-module.exports = {
+export {
     add_contact,
     del_contact,
     add_user,

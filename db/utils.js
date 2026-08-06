@@ -1,5 +1,6 @@
+import db from './fbconn.js';
+
 const findUser = async (data, typedata) => {
-    const db = require('./fbconn.js');
     const snapshot = await db
         .collection("users")
         .where(typedata, "==", data)
@@ -20,7 +21,6 @@ const findUser = async (data, typedata) => {
 };
 
 const findContact = async (data, typedata) => {
-    const db = require('./fbconn.js');
     const snapshot = await db
         .collection("contactCollection")
         .where(typedata, "==", data)
@@ -41,7 +41,7 @@ const findContact = async (data, typedata) => {
 };
 
 
-module.exports = {
+export {
     findUser,
     findContact,
 }

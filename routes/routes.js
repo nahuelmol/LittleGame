@@ -1,11 +1,11 @@
-const express = require('express');
-const router = express.Router();
-const csrf = require('csurf');
+import express from 'express';
+import csrf from 'csurf';
+import { requireAuth }  from './middlewares.js';
+
 const csrfProtection = csrf({ cookie: true });
+const router = express.Router();
 
-const { requireAuth }   = require('./middlewares.js');
-
-router.get('/', async (req, res) => {
+router.get('/', async (_req, res) => {
     res.render('main');
 });
 
@@ -15,7 +15,7 @@ router.get('/register', csrfProtection, async (req, res) => {
     });
 });
 
-router.get('/projects', async (req, res) => {
+router.get('/projects', async (_req, res) => {
     res.render('projects');
 });
 
@@ -31,9 +31,9 @@ router.get('/login', csrfProtection, async (req, res) => {
     });
 });
 
-router.get("/console", requireAuth, (req, res) => {
+router.get("/console", requireAuth, (_req, res) => {
     res.render('console');
 });
 
-module.exports = router;
+export default router;
 
