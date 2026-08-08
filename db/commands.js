@@ -1,4 +1,4 @@
-const db = require('./cnn')
+import db from './cnn';
 
 const collection = db.collection('your_collection');
 

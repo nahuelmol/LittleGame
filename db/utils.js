@@ -1,23 +1,43 @@
 import db from './fbconn.js';
 
-const findUser = async (data, typedata) => {
-    const snapshot = await db
-        .collection("users")
-        .where(typedata, "==", data)
-        .limit(1)
-        .get();
+const finder = async (collection, data, typedata, opc) => {
+    if (opc == "contains") {
+        const snap = await db
+            .collection(collection)
+            .get();
 
-    if (snapshot.empty) {
-        console.log('Collection does not exists');
-        return null;
+        if (snap.empty) {
+            return [null, 'Collection does not exists'];
+        }
+
+        let result = [];
+        snap.docs.filter(doc => {
+            const name = doc.data()[typedata];
+            if (name.includes(data)){
+                let res = snap.where("name", '==', name);
+                result.push(res)
+            };
+        });
+        return [result, 'Data available']
+
+    } else if (opc == "equal") {
+        const snap = await db
+            .collection("users")
+            .where(typedata, "==", data)
+            .limit(1)
+            .get();
+
+        if (snap.empty) {
+            return [null, 'Collection does not exists'];
+        }
+
+        const doc = snap.docs[0];
+        return [{
+            id: doc.id,
+            ...doc.data()
+        }, 'Collection exists'];
     }
 
-    const doc = snapshot.docs[0];
-
-    return {
-        id: doc.id,
-        ...doc.data()
-    };
 };
 
 const findContact = async (data, typedata) => {
@@ -42,6 +62,6 @@ const findContact = async (data, typedata) => {
 
 
 export {
-    findUser,
+    finder,
     findContact,
 }

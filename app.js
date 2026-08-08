@@ -16,10 +16,9 @@ import "dotenv/config";
 import indexRoutes 	from './routes/routes.js';
 import apiroutes    from './routes/api/routesapi.js';
 
-const app = express();
-
 const hostname = process.env.NODE_ENV === 'production' ? '0.0.0.0' : '127.0.0.1';
 const morganFormat = process.env.NODE_ENV === 'production' ? 'combined' : 'dev';
+const app = express();
 
 app.use(cors({
   credentials: true,

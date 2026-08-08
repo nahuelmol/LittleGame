@@ -1,9 +1,14 @@
 
-const admin = require("firebase-admin");
-const etc   = "/etc/secrets/fb-admin.json"
-const local = "./fb-admin.json"
+import admin from 'firebase-admin';
+
+const local = './fb-admin.json';
+const etc   = '/etc/secrets/fb-admin.json';
+
 const admin_loc = process.env.NODE_ENV === 'production' ? etc : local;
-const serviceAccount = require(admin_loc);
+
+const { default: serviceAccount } = await import(admin_loc, {
+  with: { type: "json" },
+});
 
 admin.initializeApp({
     credential: admin.credential.cert(serviceAccount)
@@ -11,4 +16,4 @@ admin.initializeApp({
 
 const db = admin.firestore();
 
-module.exports = db;
+export default db;

@@ -7,7 +7,7 @@ import multer   from 'multer';
 const router    = express.Router();
 
 import { add_user, add_contact, del_contact }   from './../../db/script_firebase.js';
-import { findUser, findContact }                from '../../db/utils.js';
+import { finder, findContact }                from '../../db/utils.js';
 import { requireAuth, TL }   from '../middlewares.js';
 import { truncate }          from '../utils.js';
 
@@ -75,11 +75,9 @@ router.get('/delete-contact/:id', async (req, _res) => {
 
 router.post('/register', upload.none(), async (req, res) => {
     const data = req.body;
-    let user = await findUser(data.name, "name");
-    if(user){
-        console.log('user already exists');
-        return
-    }
+    let [user, msg] = await finder("users", data.name, "name", "equal");
+    (user == null) && res.json({ ok:false, msg:msg });
+    
     const salt = await bcrypt.genSalt(10);
     const hashed_pass = await bcrypt.hash(data.password, salt);
     let new_user = {
@@ -93,7 +91,8 @@ router.post('/register', upload.none(), async (req, res) => {
 
 router.post('/login', upload.none(), async (req, res) => {
     const data = req.body;
-    const user = await findUser(data.name, "name");
+    const [user, msg] = await finder("users", data.name, "name", "equal");
+    (user == null) && res.json({ ok:false, msg:msg });
     if(user){
         const ok = await bcrypt.compare(
             data.password,

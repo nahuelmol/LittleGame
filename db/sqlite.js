@@ -1,5 +1,5 @@
-const sqlite3 = require('sqlite3').verbose();
-const db = new sqlite3.Database(':memory:');
+import sqlite3 from 'sqlite3';
+const db = new sqlite3.Database('database.db');
 
 db.serialize(() => {
   db.run("CREATE TABLE users (id INT, name TEXT)");
@@ -10,7 +10,7 @@ db.serialize(() => {
 
   stmt.finalize();
 
-  db.each("SELECT id, name FROM users", (err, row) => {
+  db.each("SELECT id, name FROM users", (_err, row) => {
     console.log(`${row.id}: ${row.name}`);
   });
 });

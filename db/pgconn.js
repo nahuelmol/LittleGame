@@ -1,4 +1,4 @@
-const { Client } = require('pg');
+import { Client } from 'pg';
 
 const client = new Client({
   user: process.env.PG_USER,
