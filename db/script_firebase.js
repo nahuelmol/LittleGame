@@ -1,23 +1,12 @@
 
 import db from './fbconn.js';
 
-const add_contact = async (mydoc) => {
+const add = async (doc) => {
     try {
-        await db.collection('contactCollection').add(mydoc);
-        console.log('Contact Document written');
-        return true;
+        await db.collection('contactCollection').add(doc);
+        return [true, 'New document for ' + doc];
     } catch (e) {
-        console.error('Error adding document:', e);
-        return false;
-    }
-};
-
-const add_user = async (user) => {
-    try {
-        await db.collection('users').add(user);
-        console.log('User saved correctly;');
-    } catch (e) {
-        console.error('Error adding document:', e);
+        return [false, 'Error adding document:' + e];
     }
 };
 
@@ -42,8 +31,7 @@ const del_contact = async (id) => {
 };
 
 export {
-    add_contact,
+    add,
     del_contact,
-    add_user,
 }
 

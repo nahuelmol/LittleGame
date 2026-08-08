@@ -1,15 +1,15 @@
-import express  from 'express';
-import axios    from 'axios';
-import bcrypt   from 'bcryptjs';
+import express      from 'express';
+import axios        from 'axios';
+import bcrypt       from 'bcryptjs';
 import { faker }    from '@faker-js/faker';
-import multer   from 'multer';
+import multer       from 'multer';
 
 const router    = express.Router();
 
-import { add_user, add_contact, del_contact }   from './../../db/script_firebase.js';
-import { finder, findContact }                from '../../db/utils.js';
-import { requireAuth, TL }   from '../middlewares.js';
-import { truncate }          from '../utils.js';
+import { add, del_contact } from './../../db/script_firebase.js';
+import { finder }           from '../../db/utils.js';
+import { requireAuth, TL }  from '../middlewares.js';
+import { truncate }         from '../utils.js';
 
 const upload = multer()
 
@@ -20,7 +20,6 @@ router.get('/create-set', async (_req, res) => {
     axios.post(url)
         .then(response => {
             let strjson = JSON.stringify(response.data);
-            console.log(response.data)
             let message = { msg: strjson }
             res.status(200).json(message);
         })
@@ -57,17 +56,17 @@ router.post('/create-contact', upload.none(), async (req, res) => {
         seed:false,
         time:now
     }
-    let resp = add_contact(contact);
+    let resp = add(contact);
     if (resp == true) {
-        res.json({ ok:true });
         return res.redirect("/console");
     } else {
-        res.json({ ok:false });
+        console.log("resp false");
+        return res.redirect("/contact");
     }
 })
 
 router.get('/delete-contact/:id', async (req, _res) => {
-    const { query } = req.query
+    const { query } = req.query;
     const contactID = req.params.id;
     console.log(query);
     del_contact(contactID);
@@ -85,7 +84,7 @@ router.post('/register', upload.none(), async (req, res) => {
         email:data.email,
         password:hashed_pass
     }
-    add_user(new_user);
+    add(new_user);
     res.json({ ok:true });
 });
 
@@ -106,6 +105,8 @@ router.post('/login', upload.none(), async (req, res) => {
             username: user.name
         };
         return res.redirect('/console')
+    } else {
+        return res.redirect('/login')
     }
 })
 
@@ -118,9 +119,17 @@ router.post("/logout", (req, res) => {
     });
 });
 
-router.post("/seed/find/contact", requireAuth,(req, res) => {
-    var complete = req.body['fname'] +" "+ req.body['lname'];
-    findContact(complete, 'name');
+router.post("/seed/find/contact", requireAuth, async (req, res) => {
+    var [user, msg] = [];
+    if (req.body['fname'] == "" || req.body['lname'] == "") {
+        let list = [req.body['fname'], req.body['lname']];
+        let target = list.find(e => e != "");
+        [user, msg] = await finder("contactCollection", target, "name", "contains");
+    } else {
+        var fullname = req.body['fname'] +" "+ req.body['lname'];
+        [user, msg] = await finder("contactCollection", fullname, "name", "equal");
+    }
+    (user == null) && res.json({ ok:false, msg:msg });
     res.json({ ok:true });
 })
 
@@ -147,7 +156,7 @@ router.get("/seed/:n", requireAuth,(req, res) => {
             seed:true,
             time:now
         }
-        add_contact(contact);
+        add(contact);
     }
     res.json({ ok:true });
 });

@@ -22,7 +22,7 @@ const finder = async (collection, data, typedata, opc) => {
 
     } else if (opc == "equal") {
         const snap = await db
-            .collection("users")
+            .collection(collection)
             .where(typedata, "==", data)
             .limit(1)
             .get();
@@ -40,28 +40,6 @@ const finder = async (collection, data, typedata, opc) => {
 
 };
 
-const findContact = async (data, typedata) => {
-    const snapshot = await db
-        .collection("contactCollection")
-        .where(typedata, "==", data)
-        .limit(1)
-        .get();
-
-    if (snapshot.empty) {
-        console.log('Collection does not exists');
-        return null;
-    }
-
-    const doc = snapshot.docs[0];
-
-    return {
-        id: doc.id,
-        ...doc.data()
-    };
-};
-
-
 export {
     finder,
-    findContact,
 }
