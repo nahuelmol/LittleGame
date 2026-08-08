@@ -2,20 +2,17 @@ import db from './fbconn.js';
 
 const finder = async (collection, data, typedata, opc) => {
     if (opc == "contains") {
-        const snap = await db
-            .collection(collection)
-            .get();
+        const snap = await db.collection(collection).get();
 
         if (snap.empty) {
             return [null, 'Collection does not exists'];
         }
 
         let result = [];
-        snap.docs.filter(doc => {
+        snap.docs.forEach(doc => {
             const name = doc.data()[typedata];
             if (name.includes(data)){
-                let res = snap.where("name", '==', name);
-                result.push(res)
+                result.push(doc.data())
             };
         });
         return [result, 'Data available']

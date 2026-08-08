@@ -91,22 +91,23 @@ router.post('/register', upload.none(), async (req, res) => {
 router.post('/login', upload.none(), async (req, res) => {
     const data = req.body;
     const [user, msg] = await finder("users", data.name, "name", "equal");
-    (user == null) && res.json({ ok:false, msg:msg });
+    if(user == null)
+        return res.json({ ok:false, msg:msg })
     if(user){
         const ok = await bcrypt.compare(
             data.password,
             user.password
         )
         if(!ok){
-            res.status(401).send("Invalid credentials");
+            return res.status(401).send("Invalid credentials");
         }
         req.session.user = {
             id: user.id,
             username: user.name
         };
-        return res.redirect('/console')
+        return res.redirect('/console');
     } else {
-        return res.redirect('/login')
+        return res.redirect('/login');
     }
 })
 
@@ -115,7 +116,7 @@ router.post("/logout", (req, res) => {
         if (err)
             return res.sendStatus(500);
         res.clearCookie("connect.sid");
-        res.redirect("/login");
+        return res.redirect("/login");
     });
 });
 
@@ -129,8 +130,9 @@ router.post("/seed/find/contact", requireAuth, async (req, res) => {
         var fullname = req.body['fname'] +" "+ req.body['lname'];
         [user, msg] = await finder("contactCollection", fullname, "name", "equal");
     }
-    (user == null) && res.json({ ok:false, msg:msg });
-    res.json({ ok:true });
+    if (user == null)
+        return res.json({ ok:false, msg:msg });
+    return res.redirect('/console');
 })
 
 router.get("/seed/:n", requireAuth,(req, res) => {

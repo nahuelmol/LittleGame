@@ -22,9 +22,9 @@ document.addEventListener('DOMContentLoaded', () => {
                 body: formData
             });
             if (response.ok) {
-                const res = await response.json();
+                await response.json();
             } else {
-                const err = await response.json();
+                await response.json();
             }
         } catch (err) {
             const p = document.createElement('p')
